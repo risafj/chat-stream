@@ -2,14 +2,17 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"context"
-	"errors"
+	"encoding/json"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/sashabaranov/go-openai"
 	"io"
 	"log"
+	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -30,6 +33,8 @@ func main() {
 		if scanner.Scan() {
 			input = scanner.Text()
 		}
+		start := time.Now()
+
 		messages = append(messages, openai.ChatCompletionMessage{
 			Role:    openai.ChatMessageRoleUser,
 			Content: input,
@@ -39,32 +44,51 @@ func main() {
 			Model:     openai.GPT3Dot5Turbo,
 			MaxTokens: 2000,
 			Messages:  messages,
-			Stream:    true,
 		}
-		stream, err := client.CreateChatCompletionStream(ctx, req)
+		res, err := client.CreateChatCompletion(ctx, req)
 		if err != nil {
-			fmt.Printf("ChatCompletionStream Error: %v\n", err)
+			fmt.Printf("ChatCompletion Error: %v\n", err)
 			break
 		}
 
-		fmt.Printf("Response: ")
-		for {
-			res, err := stream.Recv()
-			if errors.Is(err, io.EOF) {
-				fmt.Println("\nFin.")
-				break
-			}
-			if err != nil {
-				fmt.Printf("\nStream error: %v\n", err)
-				break
-			}
-			fmt.Printf("%v", res.Choices[0].Delta.Content)
-			messages = append(messages, openai.ChatCompletionMessage{
-				Role:    openai.ChatMessageRoleAssistant,
-				Content: res.Choices[0].Delta.Content,
-			})
-			continue
+		response := res.Choices[0].Message.Content
+		fmt.Printf("Response: %s\n", response)
+
+		messages = append(messages, openai.ChatCompletionMessage{
+			Role:    openai.ChatMessageRoleAssistant,
+			Content: response,
+		})
+
+		requestBody, err := json.Marshal(VoiceRequest{VoiceLines: response})
+		if err != nil {
+			fmt.Printf("Json Error: %v\n", err)
+			break
 		}
-		stream.Close()
+
+		voiceResponse, err := http.Post("https://walrus-fluent-jaybird.ngrok-free.app/get-voice", "application/json", bytes.NewBuffer(requestBody))
+		if err != nil {
+			fmt.Printf("Voice Error: %v\n", err)
+			break
+		}
+		defer voiceResponse.Body.Close()
+
+		outputFile, err := os.Create("chat.wav")
+		if err != nil {
+			fmt.Println("Error creating the output file:", err)
+			return
+		}
+		defer outputFile.Close()
+
+		// Copy the response body to the output file
+		_, err = io.Copy(outputFile, voiceResponse.Body)
+		if err != nil {
+			fmt.Println("Error copying the response body to the output file:", err)
+			return
+		}
+		fmt.Println(time.Since(start))
 	}
+}
+
+type VoiceRequest struct {
+	VoiceLines string `json:"voice_lines"`
 }
