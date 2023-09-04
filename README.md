@@ -10,7 +10,7 @@ Use a combination of ChatGPT and VoiceVox to make cool chat robots.
 
 ## Usage
 
-Before beginning, we just need to set two environment variables.
+Before beginning, we just need to set two environment variables inside a `.env` file.
 ```bash
 OPENAI_API_KEY=[Your Api Key Here]
 VOICEVOX_API_URL=[Your VoiceVox Endpoint Here]
@@ -24,9 +24,10 @@ It will take messages from the command line and return chatGPT responses in a st
 Commands:
 
 ```bash
-    --VoiceVox  Use VoiceVox to read responses out loud using a preset voice
-    --VoiceVox-Api Run the program as an api server in VoiceVox mode. See Api Doc below.
-    --Character [Character ID] Use a specific VoiceVox character
+    --Block         Use non-streaming block responses
+    --VoiceVox      Use VoiceVox to read responses out loud using a preset voice
+    --VoiceVox-Api  Run the program as an api server in VoiceVox mode. See Api Doc below.
+    --Character     [Character ID] Use a specific VoiceVox character
 ```
 
 An informal list of supported characters and Ids can be found [here](https://puarts.com/?pid=1830).
