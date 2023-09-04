@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/sashabaranov/go-openai"
 )
@@ -23,6 +24,23 @@ func CreateChatClient(apiKey string, isBlock bool) *chatGPTClient {
 		maxTokensPerMessage: 500,
 		isStreaming:         isBlock,
 	}
+}
+
+func (c *chatGPTClient) SendMessage(msg string) (string, error) {
+	c.addMessageToMessages(msg, openai.ChatMessageRoleUser)
+	req := openai.ChatCompletionRequest{
+		Model:     openai.GPT3Dot5Turbo,
+		MaxTokens: 2000,
+		Messages:  c.messages,
+	}
+	res, err := c.Client.CreateChatCompletion(c.ctx, req)
+	if err != nil {
+		fmt.Printf("ChatCompletion Error: %v\n", err)
+		return "", err
+	}
+	message := res.Choices[0].Message.Content
+	c.addMessageToMessages(message, openai.ChatMessageRoleAssistant)
+	return message, nil
 }
 
 func (c *chatGPTClient) addMessageToMessages(message string, role string) {
