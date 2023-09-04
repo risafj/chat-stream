@@ -23,7 +23,7 @@ It will take messages from the command line and return chatGPT responses in a st
 
 Commands:
 ```
-    --Block         Use non-streaming block responses
+    --block         Use non-streaming block responses
     --VoiceVox      Use VoiceVox to read responses out loud using a preset voice
     --VoiceVox-Api  Run the program as an api server in VoiceVox mode. See Api Doc below.
     --Character     [Character ID] Use a specific VoiceVox character

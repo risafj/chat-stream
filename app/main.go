@@ -10,7 +10,7 @@ import (
 
 // flags
 // if --Block, use block responses
-var isBlockFormat = flag.Bool("Block", false, "Use non-streaming block responses")
+var isBlockFormat = flag.Bool("block", false, "Use non-streaming block responses")
 
 // Env vars
 var openAiApiKey = "OPENAI_API_KEY"
