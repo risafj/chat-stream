@@ -30,7 +30,7 @@ Commands:
     --Character     [Character ID] Use a specific VoiceVox character
 ```
 
-An informal list of supported characters and Ids can be found [here](https://puarts.com/?pid=1830).
+An informal list of supported characters and corresponding ids can be found [here](https://puarts.com/?pid=1830).
 
 Audio samples and licensing for those characters can be found [here](https://voicevox.hiroshiba.jp/)
 
