@@ -17,12 +17,12 @@ func stream(client *chatGPTClient) {
 			break
 		}
 		fmt.Printf("Response: ")
-		messageResponse := ""
+		aggregatedStreamResponseMessage := ""
 		for {
 			res, err := stream.Recv()
 			if errors.Is(err, io.EOF) {
 				fmt.Println("\nFin.")
-				client.addMessageToMessages(messageResponse, openai.ChatMessageRoleAssistant)
+				client.addMessageToMessages(aggregatedStreamResponseMessage, openai.ChatMessageRoleAssistant)
 				break
 			}
 			if err != nil {
@@ -30,7 +30,7 @@ func stream(client *chatGPTClient) {
 				break
 			}
 			fmt.Printf("%v", res.Choices[0].Delta.Content)
-			messageResponse += res.Choices[0].Delta.Content
+			aggregatedStreamResponseMessage += res.Choices[0].Delta.Content
 			continue
 		}
 		stream.Close()
