@@ -26,7 +26,7 @@ func CreateChatClient(apiKey string, isBlock bool) *chatGPTClient {
 }
 
 func (c *chatGPTClient) addMessageToMessages(message string, role string) {
-	// Add all existing tokens in message content\
+	// Add all existing tokens in message content
 	var totalTokens int
 	for _, msg := range c.messages {
 		totalTokens += len(msg.Content)
