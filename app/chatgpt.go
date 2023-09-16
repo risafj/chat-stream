@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/sashabaranov/go-openai"
 )
@@ -35,7 +35,7 @@ func (c *chatGPTClient) SendMessage(msg string) (string, error) {
 	}
 	res, err := c.Client.CreateChatCompletion(c.ctx, req)
 	if err != nil {
-		fmt.Printf("ChatCompletion Error: %v\n", err)
+		log.Printf("ChatCompletion Error: %v\n", err)
 		return "", err
 	}
 	message := res.Choices[0].Message.Content
