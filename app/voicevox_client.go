@@ -7,19 +7,19 @@ import (
 	"net/url"
 )
 
-type voiceVoxClient struct {
+type VoiceVoxClient struct {
 	baseUrl string
 	cid     string
 }
 
-func CreateVoiceVoxClient(baseUrl, cid string) *voiceVoxClient {
-	return &voiceVoxClient{
+func CreateVoiceVoxClient(baseUrl, cid string) *VoiceVoxClient {
+	return &VoiceVoxClient{
 		baseUrl: baseUrl,
 		cid:     cid,
 	}
 }
 
-func (c *voiceVoxClient) GetAudio(msg string) (io.ReadCloser, error) {
+func (c *VoiceVoxClient) GetAudio(msg string) (io.ReadCloser, error) {
 	aq, err := c.getAudioQuery(msg)
 	if err != nil {
 		return nil, err
@@ -27,7 +27,7 @@ func (c *voiceVoxClient) GetAudio(msg string) (io.ReadCloser, error) {
 	return c.getSynthesizedVoice(aq)
 }
 
-func (c *voiceVoxClient) getAudioQuery(text string) (io.ReadCloser, error) {
+func (c *VoiceVoxClient) getAudioQuery(text string) (io.ReadCloser, error) {
 	// Make an http request to BASE_URL + AUDIO_QUERY_ENDPOINT
 	params := url.Values{}
 	params.Add("speaker", c.cid)
@@ -46,7 +46,7 @@ func (c *voiceVoxClient) getAudioQuery(text string) (io.ReadCloser, error) {
 	return res.Body, nil
 }
 
-func (c *voiceVoxClient) getSynthesizedVoice(audioQuery io.ReadCloser) (io.ReadCloser, error) {
+func (c *VoiceVoxClient) getSynthesizedVoice(audioQuery io.ReadCloser) (io.ReadCloser, error) {
 	params := url.Values{}
 	params.Add("speaker", c.cid)
 	u, _ := url.ParseRequestURI(c.baseUrl)
