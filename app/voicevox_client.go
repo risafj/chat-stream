@@ -29,14 +29,16 @@ func (c *VoiceVoxClient) GetAudio(msg string) (io.ReadCloser, error) {
 
 func (c *VoiceVoxClient) getAudioQuery(text string) (io.ReadCloser, error) {
 	// Make an http request to BASE_URL + AUDIO_QUERY_ENDPOINT
-	params := url.Values{}
-	params.Add("speaker", c.cid)
-	params.Add("text", text)
-	u, _ := url.ParseRequestURI(c.baseUrl)
+	u, err := url.ParseRequestURI(c.baseUrl)
+	if err != nil {
+		return nil, err
+	}
 	u.Path = "/audio_query"
-	u.RawQuery = params.Encode()
-	urlStr := fmt.Sprintf("%v", u)
-	res, e := http.Post(urlStr, "application/json", nil)
+	u.RawQuery = url.Values{
+		"speaker": {c.cid},
+		"text":    {text},
+	}.Encode()
+	res, e := http.Post(u.String(), "application/json", nil)
 	if e != nil {
 		return nil, e
 	}
@@ -47,13 +49,15 @@ func (c *VoiceVoxClient) getAudioQuery(text string) (io.ReadCloser, error) {
 }
 
 func (c *VoiceVoxClient) getSynthesizedVoice(audioQuery io.ReadCloser) (io.ReadCloser, error) {
-	params := url.Values{}
-	params.Add("speaker", c.cid)
-	u, _ := url.ParseRequestURI(c.baseUrl)
+	u, err := url.ParseRequestURI(c.baseUrl)
+	if err != nil {
+		return nil, err
+	}
 	u.Path = "/synthesis"
-	u.RawQuery = params.Encode()
-	urlStr := fmt.Sprintf("%v", u)
-	res, e := http.Post(urlStr, "application/json", audioQuery)
+	u.RawQuery = url.Values{
+		"speaker": {c.cid},
+	}.Encode()
+	res, e := http.Post(u.String(), "application/json", audioQuery)
 	if e != nil {
 		return nil, e
 	}
