@@ -10,7 +10,7 @@ import (
 
 // flags
 // if --Block, use block responses
-var isBlockFormat = flag.Bool("Block", false, "Use non-streaming block responses")
+var isBlockFormat = flag.Bool("block", false, "Use non-streaming block responses")
 
 // Env vars
 var openAiApiKey = "OPENAI_API_KEY"
@@ -23,10 +23,15 @@ func main() {
 	}
 	flag.Parse()
 	client := CreateChatClient(openaiAPIKey, *isBlockFormat)
-
 	if *isBlockFormat {
-		// input := getInputFromCommandLine()
-		panic("Not implemented")
+		for {
+			input := getInputFromCommandLine()
+			output, err := client.SendMessage(input)
+			if err != nil {
+				log.Fatalf("Error sending message: %v", err)
+			}
+			log.Printf("Response: %s\n", output)
+		}
 	} else {
 		stream(client)
 	}
