@@ -10,7 +10,7 @@ import (
 )
 
 // flags
-// if --VoiceVox, use block responses
+// if --vv, use block responses
 var isVoiceVox = flag.Bool("vv", false, "Use voicevox models")
 var characterVoiceId = flag.String("cid", "13", "Character voice id")
 
