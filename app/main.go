@@ -26,12 +26,13 @@ func main() {
 	}
 	flag.Parse()
 	chatClient := CreateChatClient(openAiKey, *isVoiceVox)
+	audioPlayerClient := CreateAudioPlayerClient()
 	if *isVoiceVox {
 		if vvApiUrl == "" {
 			log.Fatalf("%s not set", voiceVoxApiUrl)
 		}
 		voiceClient := CreateVoiceVoxClient(vvApiUrl, *characterVoiceId)
-		voiceChat(voiceClient, chatClient)
+		voiceChat(voiceClient, chatClient, audioPlayerClient)
 	} else {
 		stream(chatClient)
 	}
