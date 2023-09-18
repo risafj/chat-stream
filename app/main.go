@@ -27,7 +27,7 @@ func main() {
 	flag.Parse()
 	chatClient := CreateChatClient(openAiKey, *isVoiceVox)
 	if *isVoiceVox {
-		if voiceVoxApiUrl == "" {
+		if vvApiUrl == "" {
 			log.Fatalf("%s not set", voiceVoxApiUrl)
 		}
 		voiceClient := CreateVoiceVoxClient(vvApiUrl, *characterVoiceId)
