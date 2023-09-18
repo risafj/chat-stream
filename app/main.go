@@ -9,31 +9,31 @@ import (
 )
 
 // flags
-// if --Block, use block responses
-var isBlockFormat = flag.Bool("block", false, "Use non-streaming block responses")
+// if --vv, use block responses
+var isVoiceVox = flag.Bool("vv", false, "Use voicevox models")
+var characterVoiceId = flag.String("cid", "13", "Character voice id")
 
 // Env vars
 var openAiApiKey = "OPENAI_API_KEY"
+var voiceVoxApiUrl = "VOICEVOX_API_URL"
 
 func main() {
 	loadEnv()
-	openaiAPIKey := os.Getenv(openAiApiKey)
-	if openaiAPIKey == "" {
+	openAiKey := os.Getenv(openAiApiKey)
+	vvApiUrl := os.Getenv(voiceVoxApiUrl)
+	if openAiKey == "" {
 		log.Fatalf("%s not set", openAiApiKey)
 	}
 	flag.Parse()
-	client := CreateChatClient(openaiAPIKey, *isBlockFormat)
-	if *isBlockFormat {
-		for {
-			input := getInputFromCommandLine()
-			output, err := client.SendMessage(input)
-			if err != nil {
-				log.Fatalf("Error sending message: %v", err)
-			}
-			log.Printf("Response: %s\n", output)
+	chatClient := CreateChatClient(openAiKey, *isVoiceVox)
+	if *isVoiceVox {
+		if voiceVoxApiUrl == "" {
+			log.Fatalf("%s not set", voiceVoxApiUrl)
 		}
+		voiceClient := CreateVoiceVoxClient(vvApiUrl, *characterVoiceId)
+		voiceChat(voiceClient, chatClient)
 	} else {
-		stream(client)
+		stream(chatClient)
 	}
 }
 

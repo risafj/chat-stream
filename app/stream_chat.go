@@ -8,7 +8,7 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-func stream(client *chatGPTClient) {
+func stream(client *ChatGPTClient) {
 	for {
 		input := getInputFromCommandLine()
 		stream, err := client.Stream(input)

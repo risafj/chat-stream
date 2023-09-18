@@ -1,2 +1,4 @@
 **/*.env
 .idea/
+**/*.wav
+.DS_Store

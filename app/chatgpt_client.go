@@ -7,7 +7,7 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-type chatGPTClient struct {
+type ChatGPTClient struct {
 	Client              *openai.Client
 	ctx                 context.Context
 	maxTokensPerMessage int
@@ -16,8 +16,8 @@ type chatGPTClient struct {
 	isStreaming         bool
 }
 
-func CreateChatClient(apiKey string, isBlock bool) *chatGPTClient {
-	return &chatGPTClient{
+func CreateChatClient(apiKey string, isBlock bool) *ChatGPTClient {
+	return &ChatGPTClient{
 		Client:              openai.NewClient(apiKey),
 		ctx:                 context.Background(),
 		maxContext:          4096,
@@ -26,7 +26,7 @@ func CreateChatClient(apiKey string, isBlock bool) *chatGPTClient {
 	}
 }
 
-func (c *chatGPTClient) SendMessage(msg string) (string, error) {
+func (c *ChatGPTClient) SendMessage(msg string) (string, error) {
 	c.addMessageToMessages(msg, openai.ChatMessageRoleUser)
 	req := openai.ChatCompletionRequest{
 		Model:     openai.GPT3Dot5Turbo,
@@ -43,7 +43,7 @@ func (c *chatGPTClient) SendMessage(msg string) (string, error) {
 	return message, nil
 }
 
-func (c *chatGPTClient) addMessageToMessages(message string, role string) {
+func (c *ChatGPTClient) addMessageToMessages(message string, role string) {
 	// Add all existing tokens in message content
 	var totalTokens int
 	for _, msg := range c.messages {
@@ -65,7 +65,7 @@ func (c *chatGPTClient) addMessageToMessages(message string, role string) {
 	})
 }
 
-func (c *chatGPTClient) Stream(msg string) (*openai.ChatCompletionStream, error) {
+func (c *ChatGPTClient) Stream(msg string) (*openai.ChatCompletionStream, error) {
 	c.addMessageToMessages(msg, openai.ChatMessageRoleUser)
 
 	req := openai.ChatCompletionRequest{
