@@ -20,23 +20,6 @@ func voiceChat(voiceClient *VoiceVoxClient, chatClient *ChatGPTClient, audioPlay
 		if err != nil {
 			log.Fatalf("Error playing audio: %v", err)
 		}
-
-		//outputFile, err := os.Create("output.wav")
-		//if err != nil {
-		//	log.Fatalf("Error creating the output file: %v", err)
-		//	return
-		//}
-		//// Copy the response body to the output file
-		//_, err = io.Copy(outputFile, audioClip)
-		//if err != nil {
-		//	log.Fatalf("Error copying the response body to the output file: %f", err)
-		//	return
-		//}
-		//err = outputFile.Close()
-		//if err != nil {
-		//	log.Fatalf("Error closing the file: %f", err)
-		//	return
-		//}
 		log.Printf("Response: %s\n", output)
 	}
 }
