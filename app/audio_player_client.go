@@ -14,16 +14,14 @@ type AudioPlayerClient struct {
 func CreateAudioPlayerClient() *AudioPlayerClient {
 	// Prepare an Oto context (this will use your default audio device) that will
 	// play all our sounds. Its configuration can't be changed later.
-	op := &oto.NewContextOptions{}
-
-	// Tried the sample rates suggested in the docs (44100 or 48000) but those did not work
-	op.SampleRate = 24000
-
-	// Number of channels (aka locations) to play sounds from. Either 1 or 2. 1 is mono sound, and 2 is stereo.
-	op.ChannelCount = 1
-
-	// Format of the source. Wav uses 16-bit integers.
-	op.Format = oto.FormatSignedInt16LE
+	op := &oto.NewContextOptions{
+		// Tried the sample rates suggested in the docs (44100 or 48000) but those did not work
+		SampleRate: 24000,
+		// Number of channels (aka locations) to play sounds from. Either 1 or 2. 1 is mono sound, and 2 is stereo.
+		ChannelCount: 1,
+		// Format of the source. Wav uses 16-bit integers.
+		Format: oto.FormatSignedInt16LE,
+	}
 
 	otoCtx, readyChan, err := oto.NewContext(op)
 	if err != nil {
