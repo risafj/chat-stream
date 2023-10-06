@@ -1,4 +1,10 @@
+github.com/ebitengine/oto/v3 v3.0.0 h1:5F30UDJicFcJgVOJiBy7tRj/l7a+srL1IUYY5tWT3HU=
+github.com/ebitengine/oto/v3 v3.0.0/go.mod h1:50zY546V7eVjIb6+jZGPrcSG64nGfKqDgPnwFft05o0=
+github.com/ebitengine/purego v0.5.0-alpha h1:pNZNC8WofBTN3Nm196An50C5taL/87BhFR/RzKy2o4k=
+github.com/ebitengine/purego v0.5.0-alpha/go.mod h1:ah1In8AOtksoNK6yk5z1HTJeUkC1Ez4Wk2idgGslMwQ=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
 github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 github.com/sashabaranov/go-openai v1.15.1 h1:BAV5LCVEzvZ3rN/Lh5NRVs2z6AahPt/jn5s2/cEEG0M=
 github.com/sashabaranov/go-openai v1.15.1/go.mod h1:lj5b/K+zjTSFxVLijLSTDZuP7adOgerWeFyZLUhAKRg=
+golang.org/x/sys v0.10.0 h1:SqMFp9UcQJZa+pmYuAKjd9xq1f0j5rLcDIk0mj4qAsA=
+golang.org/x/sys v0.10.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
